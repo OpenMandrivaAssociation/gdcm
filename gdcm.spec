@@ -1,6 +1,6 @@
 Name: gdcm
 Version: 2.0.12
-Release: %mkrel 1
+Release: %mkrel 2
 License: GPLv2
 Summary: GDCM is an open source DICOM library
 Group: Development/C++
@@ -242,8 +242,8 @@ Python gdcm vtk files.
 	-DGDCM_USE_SYSTEM_ZLIB:BOOL=ON \
 	-DGDCM_USE_SYSTEM_UUID:BOOL=ON \
 	-DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
-	-DGDCM_USE_VTK:BOOL=ON \
 	-DGDCM_PYTHON_SITEDIR=%{py_platsitedir} \
+	-DGDCM_USE_VTK:BOOL=ON \
 	-DVTK_DIR=%_libdir/vtk
 
 %make
