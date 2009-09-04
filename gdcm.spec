@@ -20,6 +20,7 @@ BuildRequires: doxygen
 BuildRequires: vtk-devel
 BuildRequires: python-vtk-devel
 BuildRequires: tetex-latex
+BuildRequires: swig
 %py_requires -d
 
 %description
