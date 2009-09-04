@@ -197,6 +197,7 @@ Main %name library.
 
 %package -n python-gdcm
 Summary: Python gdcm files
+Group: Development/Python
 
 %description -n python-gdcm
 Python gdcm files.
@@ -211,6 +212,7 @@ Python gdcm files.
 
 %package -n python-vtkgdcm
 Summary: Python gdcm vtk files
+Group: Development/Python
 Requires: python-gdcm
 Requires: python-vtk
 Requires: %{libgdcmvtkgdcm}
