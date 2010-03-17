@@ -1,6 +1,6 @@
 Name: gdcm
 Version: 2.0.12
-Release: %mkrel 2
+Release: %mkrel 3
 License: GPLv2
 Summary: GDCM is an open source DICOM library
 Group: Development/C++
