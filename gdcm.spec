@@ -1,260 +1,232 @@
-Name: gdcm
-Version: 2.0.12
-Release: %mkrel 3
-License: GPLv2
-Summary: GDCM is an open source DICOM library
-Group: Development/C++
-URL: http://sourceforge.net/apps/mediawiki/gdcm/index.php?title=Main_Page
-# Get from https://svn.lrde.epita.fr/svn/oln/tags/olena-1.0 to have scribo
-Source0:  %name-%version.tar.bz2
-Patch0: %name-%version-insource.patch
-Patch1: gdcm-2.0.12-system-libs.patch
-BuildRoot: %{_tmppath}/%{name}-%{version}-root
-BuildRequires: cmake
-BuildRequires: libuuid-devel
-BuildRequires: zlib-devel
-BuildRequires: jpeg-devel
-BuildRequires: expat-devel
-BuildRequires: openjpeg-devel
-BuildRequires: doxygen
-BuildRequires: vtk-devel
-BuildRequires: python-vtk-devel
-BuildRequires: tetex-latex
-BuildRequires: swig
+%define name	gdcm
+%define libname	%mklibname %{name} 0
+%define devname	%mklibname %{name} -d
+%define pyname	python-%{name}
+
+Name:		%{name}
+Version:	2.0.14
+Release:	%mkrel 1
+License:	GPL
+Summary:	GDCM is an open source DICOM library
+Group:		Development/C++
+URL:		http://gdcm.sourceforge.net/
+Source0:	%{name}-%{version}.tar.bz2
+BuildRoot:	%{_tmppath}/%{name}-%{version}-root
+
+BuildRequires:	cmake
+BuildRequires:	expat-devel
+BuildRequires:	jpeg-devel
+BuildRequires:	libuuid-devel
+BuildRequires:	openjpeg-devel
+BuildRequires:	doxygen
+BuildRequires:	python-vtk-devel
+BuildRequires:	swig
+BuildRequires:	tetex-latex
+BuildRequires:	vtk-devel
+BuildRequires:	zlib-devel
 %py_requires -d
 
+Patch0:		gdcm-2.0.14-rpm-cmake.patch
+Patch1:		gdcm-2.0.14-python-2.6.patch
+
 %description
-GDCM is an open source DICOM library. It is meant to deal with DICOM files (as
-specified in part 10 of the DICOM standard). It offers some compatibility with
-ACR-NEMA 1.0 & 2.0 files (raw files).
+GDCM is an open source DICOM library. It is meant to deal with DICOM files
+(as specified in part 10 of the DICOM standard). It offers some compatibility
+with ACR-NEMA 1.0 & 2.0 files (raw files). It is written in C++ and offers
+wrapping to the following target languages (via the use of swig):
+    * Python (supported),
+    * C# (supported),
+    * Java (testing),
+    * PHP (experimental). 
+
+It attempts to support all possible DICOM image encodings, namely:
+
+    * RAW,
+    * JPEG lossy 8 & 12 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG lossless 8-16 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG 2000 reversible & irreversible (ITU-T T.800, ISO/IEC IS 15444-1),
+    * RLE,
+    * Deflated (compression at DICOM Dataset level),
+    * JPEG-LS (testing) (ITU-T T.87, ISO/IEC IS 14495-1),
+    * JPEG 2000 Multi-component reversible & irreversible (ISO/IEC IS 15444-2)
+      (not supported for now),
+    * MPEG-2 (not supported for now). 
+
+GDCM is designed under the XP definition and has a nightly dashboard
+(CMake/CTest/Dart).
 
 %files
 %defattr(-,root,root,-)
-%_datadir/gdcm-2.0
-%_bindir/*
-%_mandir/*/*
+%dir %{_datadir}/gdcm
+%{_datadir}/gdcm/*
+%{_bindir}/*
+%{_mandir}/*/*
 
-#------------------------------------------------------------------------------
+#-----------------------------------------------------------------------
+%define libgdcmCommon	%mklibname gdcmcommon	2.0
+%define libgdcmDICT	%mklibname gdcmdict	2.0
+%define libgdcmIOD	%mklibname gdcmiod	2.0
+%define libgdcmDSED	%mklibname gdcmdsed	2.0
+%define libgdcmMSFF	%mklibname gdcmmsff	2.0
+%define libgdcmvtkgdcm	%mklibname vtkgdcm	2.0
+%define libgdcmjpeg	%mklibname gdcmjpeg	8
+%package	-n %{libname}
+Summary:	Grassroots DICOM library
+Group:		System/Libraries
+Provides:	lib%{name} = %{version}-%{release}
+Obsoletes:	%{libgdcmCommon} < %{version}-%{release}
+Obsoletes:	%{libgdcmDICT} < %{version}-%{release}
+Obsoletes:	%{libgdcmIOD} < %{version}-%{release}
+Obsoletes:	%{libgdcmDSED} < %{version}-%{release}
+Obsoletes:	%{libgdcmMSFF} < %{version}-%{release}
+Obsoletes:	%{libgdcmvtkgdcm} < %{version}-%{release}
+# don't conflict with libgdcmjpeg6.12
+Provides:	%{libgdcmjpeg} = %{version}-%{release}
 
-%package doc
-Summary: %name documentation
-Group: Books/Howtos
+%description	-n %{libname}
+GDCM is an open source DICOM library. It is meant to deal with DICOM files
+(as specified in part 10 of the DICOM standard). It offers some compatibility
+with ACR-NEMA 1.0 & 2.0 files (raw files). It is written in C++ and offers
+wrapping to the following target languages (via the use of swig):
+    * Python (supported),
+    * C# (supported),
+    * Java (testing),
+    * PHP (experimental). 
 
-%description doc
-%name documentation.
+It attempts to support all possible DICOM image encodings, namely:
 
-%files doc
-%defattr(-,root,root,-)
+    * RAW,
+    * JPEG lossy 8 & 12 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG lossless 8-16 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG 2000 reversible & irreversible (ITU-T T.800, ISO/IEC IS 15444-1),
+    * RLE,
+    * Deflated (compression at DICOM Dataset level),
+    * JPEG-LS (testing) (ITU-T T.87, ISO/IEC IS 14495-1),
+    * JPEG 2000 Multi-component reversible & irreversible (ISO/IEC IS 15444-2)
+      (not supported for now),
+    * MPEG-2 (not supported for now). 
 
-#------------------------------------------------------------------------------
+GDCM is designed under the XP definition and has a nightly dashboard
+(CMake/CTest/Dart).
 
-%define Common_major 2.0
-%define libgdcmCommon %mklibname gdcmcommon %{Common_major}
+%files		-n %{libname}
+%defattr(-,root,root)
+%{_libdir}/lib*.so.*
+%dir %{_datadir}/%{name}
+%{_datadir}/%{name}/*
 
-%package -n %{libgdcmCommon}
-Summary: Main %name library
-Group: Development/C++
+#-----------------------------------------------------------------------
+%package	-n %{devname}
+Summary:	Grassroots DICOM library
+Group:		Development/Other
+Requires:	%{libname} = %{version}-%{release}
+Provides:	%{name}-devel = %{version}-%{release}
 
-%description -n %{libgdcmCommon}
-Main %name library.
+%description	-n %{devname}
+GDCM is an open source DICOM library. It is meant to deal with DICOM files
+(as specified in part 10 of the DICOM standard). It offers some compatibility
+with ACR-NEMA 1.0 & 2.0 files (raw files). It is written in C++ and offers
+wrapping to the following target languages (via the use of swig):
+    * Python (supported),
+    * C# (supported),
+    * Java (testing),
+    * PHP (experimental). 
 
-%files -n %{libgdcmCommon}
-%defattr(-,root,root,-)
-%{_libdir}/libgdcmCommon.so.%{Common_major}*
+It attempts to support all possible DICOM image encodings, namely:
 
-#------------------------------------------------------------------------------
+    * RAW,
+    * JPEG lossy 8 & 12 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG lossless 8-16 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG 2000 reversible & irreversible (ITU-T T.800, ISO/IEC IS 15444-1),
+    * RLE,
+    * Deflated (compression at DICOM Dataset level),
+    * JPEG-LS (testing) (ITU-T T.87, ISO/IEC IS 14495-1),
+    * JPEG 2000 Multi-component reversible & irreversible (ISO/IEC IS 15444-2)
+      (not supported for now),
+    * MPEG-2 (not supported for now). 
 
-%define DICT_major 2.0
-%define libgdcmDICT %mklibname gdcmdict %{DICT_major}
+GDCM is designed under the XP definition and has a nightly dashboard
+(CMake/CTest/Dart).
 
-%package -n %{libgdcmDICT}
-Summary: Main %name library
-Group: Development/C++
+%files		-n %{devname}
+%defattr(-,root,root)
+%dir %{_includedir}/%{name}
+%{_includedir}/%{name}/*
+%{_libdir}/lib*.so
+%dir %{_libdir}/%{name}
+%{_libdir}/%{name}/*
 
-%description -n %{libgdcmDICT}
-Main %name library.
+#-----------------------------------------------------------------------
+%package	-n %{pyname}
+Summary:	Grassroots DICOM library
+Group:		Development/Python
+Obsoletes:	python-vtkgdcm < %{version}-%{release}
+Provides:	python-vtkgdcm = %{version}-%{release}
 
-%files -n %{libgdcmDICT}
-%defattr(-,root,root,-)
-%{_libdir}/libgdcmDICT.so.%{DICT_major}*
+%description	-n %{pyname}
+GDCM is an open source DICOM library. It is meant to deal with DICOM files
+(as specified in part 10 of the DICOM standard). It offers some compatibility
+with ACR-NEMA 1.0 & 2.0 files (raw files). It is written in C++ and offers
+wrapping to the following target languages (via the use of swig):
+    * Python (supported),
+    * C# (supported),
+    * Java (testing),
+    * PHP (experimental). 
 
-#------------------------------------------------------------------------------
+It attempts to support all possible DICOM image encodings, namely:
 
-%define IOD_major 2.0
-%define libgdcmIOD %mklibname gdcmiod %{IOD_major}
+    * RAW,
+    * JPEG lossy 8 & 12 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG lossless 8-16 bits (ITU-T T.81, ISO/IEC IS 10918-1),
+    * JPEG 2000 reversible & irreversible (ITU-T T.800, ISO/IEC IS 15444-1),
+    * RLE,
+    * Deflated (compression at DICOM Dataset level),
+    * JPEG-LS (testing) (ITU-T T.87, ISO/IEC IS 14495-1),
+    * JPEG 2000 Multi-component reversible & irreversible (ISO/IEC IS 15444-2)
+      (not supported for now),
+    * MPEG-2 (not supported for now). 
 
-%package -n %{libgdcmIOD}
-Summary: Main %name library
-Group: Development/C++
+GDCM is designed under the XP definition and has a nightly dashboard
+(CMake/CTest/Dart).
 
-%description -n %{libgdcmIOD}
-Main %name library.
+%files		-n %{pyname}
+%defattr(-,root,root)
+%{py_platsitedir}/*
 
-%files -n %{libgdcmIOD}
-%defattr(-,root,root,-)
-%{_libdir}/libgdcmIOD.so.%{IOD_major}*
-
-#------------------------------------------------------------------------------
-
-%define DSED_major 2.0
-%define libgdcmDSED %mklibname gdcmdsed %{DSED_major}
-
-%package -n %{libgdcmDSED}
-Summary: Main %name library
-Group: Development/C++
-
-%description -n %{libgdcmDSED}
-Main %name library.
-
-%files -n %{libgdcmDSED}
-%defattr(-,root,root,-)
-%{_libdir}/libgdcmDSED.so.%{DSED_major}*
-
-#------------------------------------------------------------------------------
-
-%define MSFF_major 2.0
-%define libgdcmMSFF %mklibname gdcmmsff %{MSFF_major}
-
-%package -n %{libgdcmMSFF}
-Summary: Main %name library
-Group: Development/C++
-
-%description -n %{libgdcmMSFF}
-Main %name library.
-
-%files -n %{libgdcmMSFF}
-%defattr(-,root,root,-)
-%{_libdir}/libgdcmMSFF.so.%{MSFF_major}*
-
-#------------------------------------------------------------------------------
-
-%package devel
-Summary: %name devel files
-Group: Development/C++
-Requires: %{libgdcmCommon} = %{version}
-Requires: %{libgdcmMSFF} = %{version}
-Requires: %{libgdcmDSED} = %{version}
-Requires: %{libgdcmIOD} = %{version}
-Requires: %{libgdcmDICT} = %{version}
-
-%description devel
-%name devel files
-
-%files devel
-%defattr(-,root,root,-)
-%{_libdir}/*.so
-%{_includedir}/*
-%{_libdir}/gdcm-2.0
-
-#------------------------------------------------------------------------------
-
-%define vtkgdcm_major 2.0
-%define libgdcmvtkgdcm %mklibname vtkgdcm %{vtkgdcm_major}
-
-%package -n %{libgdcmvtkgdcm}
-Summary: Main %name library
-Group: Development/C++
-
-%description -n %{libgdcmvtkgdcm}
-Main %name library.
-
-%files -n %{libgdcmvtkgdcm}
-%defattr(-,root,root,-)
-%{_libdir}/libvtkgdcm.so.%{vtkgdcm_major}*
-
-#------------------------------------------------------------------------------
-
-%define vtkgdcmPythonD_major 2.0
-%define libgdcmvtkgdcmPythonD %mklibname vtkgdcmpythonp %{vtkgdcmPythonD_major}
-
-%package -n %{libgdcmvtkgdcmPythonD}
-Summary: Main %name library
-Group: Development/C++
-
-%description -n %{libgdcmvtkgdcmPythonD}
-Main %name library.
-
-%files -n %{libgdcmvtkgdcmPythonD}
-%defattr(-,root,root,-)
-%py_platsitedir/libvtkgdcmPythonD.so.%{vtkgdcmPythonD_major}*
-
-#------------------------------------------------------------------------------
-
-%define jpeg_major 62.1
-%define libgdcmjpeg %mklibname gdcmjpeg  %{jpeg_major}
-
-%package -n %{libgdcmjpeg}
-Summary: Main %name library
-Group: Development/C++
-
-%description -n %{libgdcmjpeg}
-Main %name library.
-
-%files -n %{libgdcmjpeg}
-%defattr(-,root,root,-)
-%{_libdir}/libgdcmjpeg*.so.%{jpeg_major}*
-
-#------------------------------------------------------------------------------
-
-%package -n python-gdcm
-Summary: Python gdcm files
-Group: Development/Python
-
-%description -n python-gdcm
-Python gdcm files.
-
-%files -n python-gdcm
-%defattr(-,root,root,-)
-%py_platsitedir/*.py
-%py_platsitedir/*.so
-%exclude %py_platsitedir/vtkgdcm.py
-
-#------------------------------------------------------------------------------
-
-%package -n python-vtkgdcm
-Summary: Python gdcm vtk files
-Group: Development/Python
-Requires: python-gdcm
-Requires: python-vtk
-Requires: %{libgdcmvtkgdcm}
-Requires: %{libgdcmvtkgdcmPythonD}
-
-%description -n python-vtkgdcm
-Python gdcm vtk files.
-
-%files -n python-vtkgdcm
-%defattr(-,root,root,-)
-%py_platsitedir/vtkgdcm.py
-
-#------------------------------------------------------------------------------
-
+#-----------------------------------------------------------------------
 %prep
 %setup -q
-%patch0 -p0 -b .orig
-%patch1 -p0 -b .orig
 
+%patch0 -p1
+%patch1 -p1
+
+#-----------------------------------------------------------------------
 %build
 %cmake \
-	-DGDCM_INSTALL_LIB_DIR=%_libdir \
-	-DGDCM_INSTALL_MAN_DIR=%_mandir \
-	-DGDCM_WRAP_PYTHON:BOOL=ON \
+	-DGDCM_USE_ITK:BOOL=OFF \
+	-DGDCM_USE_VTK:BOOL=ON \
 	-DGDCM_BUILD_APPLICATIONS:BOOL=ON \
 	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
 	-DGDCM_DOCUMENTATION:BOOL=ON \
+	-DGDCM_INSTALL_LIB_DIR:PATH=%{_libdir} \
+	-DGDCM_INSTALL_INCLUDE_DIR:PATH=%{_includedir}/%{name} \
+	-DGDCM_INSTALL_DOC_DIR:PATH=%{_docdir}/%{name} \
+	-DGDCM_INSTALL_MAN_DIR=%{_mandir} \
+	-DGDCM_WRAP_PYTHON:BOOL=ON \
+	-DGDCM_WRAP_CSHARP:BOOL=OFF \
 	-DGDCM_USE_SYSTEM_EXPAT:BOOL=ON \
-	-DGDCM_USE_SYSTEM_ZLIB:BOOL=ON \
-	-DGDCM_USE_SYSTEM_UUID:BOOL=ON \
 	-DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
-	-DGDCM_PYTHON_SITEDIR=%{py_platsitedir} \
-	-DGDCM_USE_VTK:BOOL=ON \
-	-DVTK_DIR=%_libdir/vtk
-
+	-DGDCM_USE_SYSTEM_UUID:BOOL=ON \
+	-DGDCM_USE_SYSTEM_ZLIB:BOOL=ON
 %make
 
+#-----------------------------------------------------------------------
 %install
-rm -rf %buildroot
 %makeinstall_std -C build
 
-%clean
-rm -rf %buildroot
+mv -f %{buildroot}%{_libdir}/gdcm{-2.0,}
+mv -f %{buildroot}%{_datadir}/gdcm{-2.0,}
 
+#-----------------------------------------------------------------------
+%clean
+rm -rf %{buildroot}
