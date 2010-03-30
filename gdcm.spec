@@ -13,6 +13,8 @@ URL:		http://gdcm.sourceforge.net/
 Source0:	%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
+# FIXME itk package is broken but should be optional here
+#BuildRequires:	itk-devel
 BuildRequires:	cmake
 BuildRequires:	expat-devel
 BuildRequires:	jpeg-devel
@@ -226,6 +228,11 @@ GDCM is designed under the XP definition and has a nightly dashboard
 
 mv -f %{buildroot}%{_libdir}/gdcm{-2.0,}
 mv -f %{buildroot}%{_datadir}/gdcm{-2.0,}
+pushd %{buildroot}%{_libdir}
+  for f in lib*.so.2.0.14; do
+    ln -sf $f `echo $f | sed -e 's/.2.0.14//'`
+  done
+popd
 
 #-----------------------------------------------------------------------
 %clean
