@@ -5,7 +5,7 @@
 
 Name:		%{name}
 Version:	2.0.14
-Release:	%mkrel 1
+Release:	%mkrel 2
 License:	GPL
 Summary:	GDCM is an open source DICOM library
 Group:		Development/C++
@@ -65,13 +65,14 @@ GDCM is designed under the XP definition and has a nightly dashboard
 %{_mandir}/*/*
 
 #-----------------------------------------------------------------------
-%define libgdcmCommon	%mklibname gdcmcommon	2.0
-%define libgdcmDICT	%mklibname gdcmdict	2.0
-%define libgdcmIOD	%mklibname gdcmiod	2.0
-%define libgdcmDSED	%mklibname gdcmdsed	2.0
-%define libgdcmMSFF	%mklibname gdcmmsff	2.0
-%define libgdcmvtkgdcm	%mklibname vtkgdcm	2.0
-%define libgdcmjpeg	%mklibname gdcmjpeg	8
+%define libgdcmCommon		%mklibname gdcmcommon		2.0
+%define libgdcmDICT		%mklibname gdcmdict		2.0
+%define libgdcmIOD		%mklibname gdcmiod		2.0
+%define libgdcmDSED		%mklibname gdcmdsed		2.0
+%define libgdcmMSFF		%mklibname gdcmmsff		2.0
+%define libgdcmvtkgdcm		%mklibname vtkgdcm		2.0
+%define libgdcmvtkgdcmPythonD	%mklibname vtkgdcmpythonp	2.0
+%define libgdcmjpeg		%mklibname gdcmjpeg		8
 %package	-n %{libname}
 Summary:	Grassroots DICOM library
 Group:		System/Libraries
@@ -82,6 +83,7 @@ Obsoletes:	%{libgdcmIOD} < %{version}-%{release}
 Obsoletes:	%{libgdcmDSED} < %{version}-%{release}
 Obsoletes:	%{libgdcmMSFF} < %{version}-%{release}
 Obsoletes:	%{libgdcmvtkgdcm} < %{version}-%{release}
+Obsoletes:	%{libgdcmvtkgdcmPythonD} < %{version}-%{release}
 # don't conflict with libgdcmjpeg6.12
 Provides:	%{libgdcmjpeg} = %{version}-%{release}
 
