@@ -5,7 +5,7 @@
 
 Name:		%{name}
 Version:	2.0.14
-Release:	%mkrel 2
+Release:	%mkrel 3
 License:	GPL
 Summary:	GDCM is an open source DICOM library
 Group:		Development/C++
@@ -13,8 +13,7 @@ URL:		http://gdcm.sourceforge.net/
 Source0:	%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
-# FIXME itk package is broken but should be optional here
-#BuildRequires:	itk-devel
+BuildRequires:	itk-devel
 BuildRequires:	cmake
 BuildRequires:	expat-devel
 BuildRequires:	jpeg-devel
@@ -207,7 +206,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 #-----------------------------------------------------------------------
 %build
 %cmake \
-	-DGDCM_USE_ITK:BOOL=OFF \
+	-DGDCM_USE_ITK:BOOL=ON \
 	-DGDCM_USE_VTK:BOOL=ON \
 	-DGDCM_BUILD_APPLICATIONS:BOOL=ON \
 	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
