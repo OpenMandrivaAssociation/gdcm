@@ -4,8 +4,8 @@
 %define pyname	python-%{name}
 
 Name:		%{name}
-Version:	2.0.14
-Release:	%mkrel 3
+Version:	2.0.15
+Release:	%mkrel 1
 License:	GPL
 Summary:	GDCM is an open source DICOM library
 Group:		Development/C++
@@ -211,6 +211,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 	-DGDCM_BUILD_APPLICATIONS:BOOL=ON \
 	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
 	-DGDCM_DOCUMENTATION:BOOL=ON \
+	-DGDCM_INSTALL_BIN_DIR:PATH=%{_bindir} \
 	-DGDCM_INSTALL_LIB_DIR:PATH=%{_libdir} \
 	-DGDCM_INSTALL_INCLUDE_DIR:PATH=%{_includedir}/%{name} \
 	-DGDCM_INSTALL_DOC_DIR:PATH=%{_docdir}/%{name} \
