@@ -231,8 +231,8 @@ GDCM is designed under the XP definition and has a nightly dashboard
 mv -f %{buildroot}%{_libdir}/gdcm{-2.0,}
 mv -f %{buildroot}%{_datadir}/gdcm{-2.0,}
 pushd %{buildroot}%{_libdir}
-  for f in lib*.so.2.0.14; do
-    ln -sf $f `echo $f | sed -e 's/.2.0.14//'`
+  for f in lib*.so.%{version}; do
+    ln -sf $f `echo $f | sed -e 's/.%{version}//'`
   done
 popd
 
