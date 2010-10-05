@@ -4,13 +4,13 @@
 %define pyname	python-%{name}
 
 Name:		%{name}
-Version:	2.0.15
+Version:	2.0.16
 Release:	%mkrel 1
 License:	GPL
 Summary:	GDCM is an open source DICOM library
 Group:		Development/C++
 URL:		http://gdcm.sourceforge.net/
-Source0:	%{name}-%{version}.tar.bz2
+Source0:	http://downloads.sourceforge.net/gdcm/%{name}-%{version}.tar.bz2
 BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 BuildRequires:	itk-devel
@@ -226,6 +226,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 
 #-----------------------------------------------------------------------
 %install
+rm -fr %buildroot
 %makeinstall_std -C build
 
 mv -f %{buildroot}%{_libdir}/gdcm{-2.0,}
