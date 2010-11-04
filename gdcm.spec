@@ -28,7 +28,7 @@ BuildRequires:	zlib-devel
 %py_requires -d
 
 Patch0:		gdcm-2.0.14-rpm-cmake.patch
-Patch1:		gdcm-2.0.14-python-2.6.patch
+Patch1:		gdcm-2.0.14-python-2.7.patch
 
 %description
 GDCM is an open source DICOM library. It is meant to deal with DICOM files
