@@ -4,8 +4,8 @@
 %define pyname	python-%{name}
 
 Name:		%{name}
-Version:	2.0.16
-Release:	%mkrel 3
+Version:	2.0.18
+Release:	%mkrel 1
 License:	GPL
 Summary:	GDCM is an open source DICOM library
 Group:		Development/C++
@@ -22,13 +22,14 @@ BuildRequires:	openjpeg-devel
 BuildRequires:	doxygen
 BuildRequires:	python-vtk-devel
 BuildRequires:	swig
-BuildRequires:	tetex-latex
+BuildRequires:	texlive
 BuildRequires:	vtk-devel
 BuildRequires:	zlib-devel
 %py_requires -d
 
-Patch0:		gdcm-2.0.14-rpm-cmake.patch
-Patch1:		gdcm-2.0.14-python-2.7.patch
+Patch0:		gdcm-2.0.18-rpm-cmake.patch
+Patch1:		gdcm-2.0.18-python-2.7.patch
+Patch2:		gdcm-2.0.18-underlink.patch
 
 %description
 GDCM is an open source DICOM library. It is meant to deal with DICOM files
@@ -115,8 +116,6 @@ GDCM is designed under the XP definition and has a nightly dashboard
 %files		-n %{libname}
 %defattr(-,root,root)
 %{_libdir}/lib*.so.*
-%dir %{_datadir}/%{name}
-%{_datadir}/%{name}/*
 
 #-----------------------------------------------------------------------
 %package	-n %{devname}
@@ -156,6 +155,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
 %{_libdir}/lib*.so
+%exclude %{_libdir}/libvtkgdcmPythonD.so
 %dir %{_libdir}/%{name}
 %{_libdir}/%{name}/*
 
@@ -195,6 +195,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 %files		-n %{pyname}
 %defattr(-,root,root)
 %{py_platsitedir}/*
+%{_libdir}/libvtkgdcmPythonD.so
 
 #-----------------------------------------------------------------------
 %prep
@@ -202,6 +203,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 
 %patch0 -p1
 %patch1 -p1
+%patch2 -p1
 
 #-----------------------------------------------------------------------
 %build
