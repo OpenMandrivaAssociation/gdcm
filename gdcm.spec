@@ -16,6 +16,7 @@ BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 BuildRequires:	itk-devel
 BuildRequires:	cmake
 BuildRequires:	expat-devel
+BuildRequires:	graphviz
 BuildRequires:	jpeg-devel
 BuildRequires:	libuuid-devel
 BuildRequires:	openjpeg-devel
