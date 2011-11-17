@@ -225,7 +225,7 @@ GDCM is designed under the XP definition and has a nightly dashboard
 	-DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
 	-DGDCM_USE_SYSTEM_UUID:BOOL=ON \
 	-DGDCM_USE_SYSTEM_ZLIB:BOOL=ON
-%make
+make
 
 #-----------------------------------------------------------------------
 %install
