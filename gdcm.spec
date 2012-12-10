@@ -243,3 +243,48 @@ popd
 #-----------------------------------------------------------------------
 %clean
 rm -rf %{buildroot}
+
+
+%changelog
+* Thu Nov 17 2011 Paulo Andrade <pcpa@mandriva.com.br> 2.0.18-1mdv2012.0
++ Revision: 731240
+- Update to latest upstream release gdcm 2.0.18
+
+* Tue May 17 2011 Paulo Andrade <pcpa@mandriva.com.br> 2.0.16-3
++ Revision: 675919
+- Rebuild
+
+* Thu Nov 04 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.0.16-2mdv2011.0
++ Revision: 593528
++ rebuild (emptylog)
+
+* Tue Oct 05 2010 Funda Wang <fwang@mandriva.org> 2.0.16-1mdv2011.0
++ Revision: 583077
+- New version 2.0.16
+
+* Thu Jul 22 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.0.15-1mdv2011.0
++ Revision: 556738
+- Update to version 2.0.15 and rebuild with newer itk and vtk.
+
+* Thu May 20 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.0.14-3mdv2010.1
++ Revision: 545502
+- Enable itk support.
+
+* Wed Mar 31 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.0.14-2mdv2010.1
++ Revision: 530514
++ rebuild (emptylog)
+
+* Tue Mar 30 2010 Paulo Andrade <pcpa@mandriva.com.br> 2.0.14-1mdv2010.1
++ Revision: 528945
+- Update to latest upstream release
+
+* Wed Mar 17 2010 Oden Eriksson <oeriksson@mandriva.com> 2.0.12-3mdv2010.1
++ Revision: 522710
+- rebuilt for 2010.1
+
+* Fri Sep 04 2009 Helio Chissini de Castro <helio@mandriva.com> 2.0.12-2mdv2010.0
++ Revision: 431511
+- Initial compilation
+- imported package gdcm
+
+
