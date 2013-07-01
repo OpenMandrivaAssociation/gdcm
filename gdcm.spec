@@ -7,7 +7,7 @@ Name:		%{name}
 Version:	2.0.18
 Release:	%mkrel 1
 License:	GPL
-Summary:	GDCM is an open source DICOM library
+Summary:	Is an open source DICOM library
 Group:		Development/C++
 URL:		http://gdcm.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/gdcm/%{name}-%{version}.tar.bz2
