@@ -1,17 +1,15 @@
-%define name	gdcm
 %define libname	%mklibname %{name} 0
 %define devname	%mklibname %{name} -d
 %define pyname	python-%{name}
 
-Name:		%{name}
+Name:		gdcm
 Version:	2.0.18
-Release:	%mkrel 1
+Release:	2
 License:	GPL
-Summary:	Is an open source DICOM library
+Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		http://gdcm.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/gdcm/%{name}-%{version}.tar.bz2
-BuildRoot:	%{_tmppath}/%{name}-%{version}-root
 
 BuildRequires:	itk-devel
 BuildRequires:	cmake
@@ -115,7 +113,6 @@ GDCM is designed under the XP definition and has a nightly dashboard
 (CMake/CTest/Dart).
 
 %files		-n %{libname}
-%defattr(-,root,root)
 %{_libdir}/lib*.so.*
 
 #-----------------------------------------------------------------------
@@ -152,7 +149,6 @@ GDCM is designed under the XP definition and has a nightly dashboard
 (CMake/CTest/Dart).
 
 %files		-n %{devname}
-%defattr(-,root,root)
 %dir %{_includedir}/%{name}
 %{_includedir}/%{name}/*
 %{_libdir}/lib*.so
@@ -194,7 +190,6 @@ GDCM is designed under the XP definition and has a nightly dashboard
 (CMake/CTest/Dart).
 
 %files		-n %{pyname}
-%defattr(-,root,root)
 %{py_platsitedir}/*
 %{_libdir}/libvtkgdcmPythonD.so
 
@@ -242,7 +237,6 @@ popd
 
 #-----------------------------------------------------------------------
 %clean
-rm -rf %{buildroot}
 
 
 %changelog
