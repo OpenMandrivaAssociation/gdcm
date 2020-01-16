@@ -5,6 +5,8 @@
 %define devname	%mklibname %{name} -d
 %define pyname	python-%{name}
 
+%define oname GDCM
+
 Name:		gdcm
 Version:	3.0.4
 Release:	1
@@ -13,7 +15,7 @@ Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		http://gdcm.sourceforge.net/
 # Use github release
-Source0:    https://github.com/malaterre/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source0:    https://github.com/malaterre/%{name}/archive/v%{version}/%{oname}-%{version}.tar.gz
 Source1:    http://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
 
 
