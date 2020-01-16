@@ -83,7 +83,7 @@ Summary:    Python binding for GDCM
 %{?python_provide:%python_provide python-gdcm}
 Requires:   %{name}%{?_isa} = %{version}-%{release}
 
-%description -n python3-gdcm
+%description -n python-gdcm
 You should install the python3-gdcm package if you would like to
 used this library with python
 
