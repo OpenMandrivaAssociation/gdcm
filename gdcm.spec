@@ -251,7 +251,7 @@ make test -C %{_target_platform} || exit 0
 %files examples
 %{_datadir}/%{name}/Examples/
 
-%files -n pytho3-gdcm
+%files -n python-gdcm
 %{python_sitearch}/%{name}*.py
 %{python_sitearch}/_%{name}swig.so
 %{python_sitearch}/__pycache__/%{name}*
