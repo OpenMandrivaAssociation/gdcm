@@ -3,32 +3,37 @@
 %define pyname	python-%{name}
 
 Name:		gdcm
-Version:	2.0.18
-Release:	2
+Version:	3.0.4
+Release:	1
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		http://gdcm.sourceforge.net/
 Source0:	http://downloads.sourceforge.net/gdcm/%{name}-%{version}.tar.bz2
 
-BuildRequires:	itk-devel
-BuildRequires:	cmake
-BuildRequires:	expat-devel
-BuildRequires:	graphviz
-BuildRequires:	jpeg-devel
-BuildRequires:	libuuid-devel
-BuildRequires:	openjpeg-devel
-BuildRequires:	doxygen
-BuildRequires:	python-vtk-devel
-BuildRequires:	swig
-BuildRequires:	texlive
-BuildRequires:	vtk-devel
-BuildRequires:	zlib-devel
-%py_requires -d
-
-Patch0:		gdcm-2.0.18-rpm-cmake.patch
-Patch1:		gdcm-2.0.18-python-2.7.patch
-Patch2:		gdcm-2.0.18-underlink.patch
+BuildRequires:  CharLS-devel >= 2.0
+BuildRequires:  cmake
+BuildRequires:  doxygen
+BuildRequires:  libxslt-devel
+#BuildRequires:  dcmtk-devel
+BuildRequires:  docbook-style-xsl
+BuildRequires:  expat-devel
+BuildRequires:  fontconfig-devel
+BuildRequires:  git-core
+BuildRequires:  graphviz
+BuildRequires:  gl2ps-devel
+BuildRequires:  libogg-devel
+BuildRequires:  libtheora-devel
+BuildRequires:  pkgconfig(uuid)
+BuildRequires:  pkgconfig(osmesa)
+BuildRequires:  openssl-devel
+BuildRequires:  pkgconfig(libopenjp2)
+BuildRequires:  poppler-devel
+BuildRequires:  python-devel
+BuildRequires:  swig
+BuildRequires:  sqlite-devel
+BuildRequires:  json-c-devel
+BuildRequires:  libxml2-devel
 
 %description
 GDCM is an open source DICOM library. It is meant to deal with DICOM files
