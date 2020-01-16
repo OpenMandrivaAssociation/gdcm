@@ -125,8 +125,8 @@ rm -rf Utilities/wxWidgets
 #rm -rf Utilities/gdcmmd5
 
 %build
-mkdir -p %{_target_platform}
-pushd %{_target_platform}
+#mkdir -p %{_target_platform}
+#pushd %{_target_platform}
 
 %cmake  .. \
     -DCMAKE_VERBOSE_MAKEFILE=ON \
