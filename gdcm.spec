@@ -1,3 +1,6 @@
+# Enabled by default
+%bcond_with tests
+
 %define libname	%mklibname %{name} 0
 %define devname	%mklibname %{name} -d
 %define pyname	python-%{name}
@@ -9,7 +12,10 @@ License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		http://gdcm.sourceforge.net/
-Source0:	http://downloads.sourceforge.net/gdcm/%{name}-%{version}.tar.bz2
+# Use github release
+Source0:    https://github.com/malaterre/%{name}/archive/v%{version}/%{name}-%{version}.tar.gz
+Source1:    http://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
+
 
 BuildRequires:  CharLS-devel >= 2.0
 BuildRequires:  cmake
