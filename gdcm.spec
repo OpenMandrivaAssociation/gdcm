@@ -4,7 +4,7 @@
 
 %define oname GDCM
 
-# FIXME actuallu OM texlive and doxygen are broken!
+# FIXME actually OM texlive and doxygen are broken!
 %bcond_with doc
 %bcond_without java
 %bcond_without python
@@ -28,6 +28,7 @@ Patch0:		gdcm-3.0.10-fix_copyright.patch
 
 BuildRequires:  CharLS-devel >= 2.0
 BuildRequires:  cmake
+BuildRequires:	ninja
 BuildRequires:  docbook-style-xsl
 BuildRequires:  docbook-style-xsl-ns
 BuildRequires:  doxygen
