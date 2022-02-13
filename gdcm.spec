@@ -119,7 +119,7 @@ anonymize, manipulate, concatenate, and view DICOM files.
 %{_bindir}/gdcmscu
 %{_bindir}/gdcmtar
 %{_bindir}/gdcmxml
-%doc %{_mandir}/man1/*.1*
+#doc %{_mandir}/man1/*.1*
 
 #---------------------------------------------------------------------------
 
