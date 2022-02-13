@@ -32,7 +32,7 @@ BuildRequires:	ninja
 BuildRequires:  docbook-style-xsl
 BuildRequires:  docbook-style-xsl-ns
 BuildRequires:  doxygen
-#BuildRequires:  dcmtk-devel
+BuildRequires:  dcmtk-devel
 BuildRequires:  git-core
 BuildRequires:  gl2ps-devel
 BuildRequires:  graphviz
