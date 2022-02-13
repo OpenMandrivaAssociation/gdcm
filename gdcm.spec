@@ -26,39 +26,39 @@ Source1:	http://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmDat
 Patch0:		gdcm-3.0.10-fix_copyright.patch
 #Patch1:		gdcm-3.0.10-fix_vtk.patch
 
-BuildRequires:  CharLS-devel >= 2.0
-BuildRequires:  cmake
+BuildRequires:	CharLS-devel >= 2.0
+BuildRequires:	cmake
 BuildRequires:	ninja
-BuildRequires:  docbook-style-xsl
-BuildRequires:  docbook-style-xsl-ns
-BuildRequires:  doxygen
-BuildRequires:  dcmtk-devel
-BuildRequires:  git-core
-BuildRequires:  gl2ps-devel
-BuildRequires:  graphviz
+BuildRequires:	docbook-style-xsl
+BuildRequires:	docbook-style-xsl-ns
+BuildRequires:	doxygen
+BuildRequires:	dcmtk-devel
+BuildRequires:	git-core
+BuildRequires:	gl2ps-devel
+BuildRequires:	graphviz
 %if %{with java}
 BuildRequires:	java-devel
-BuildRequires:  java-vtk
+BuildRequires:	java-vtk
 %endif
-BuildRequires:  pkgconfig(expat)
-BuildRequires:  pkgconfig(fontconfig)
-BuildRequires:  pkgconfig(json-c)
-BuildRequires:  pkgconfig(libopenjp2)
-BuildRequires:  pkgconfig(libxml-2.0)
-BuildRequires:  pkgconfig(libxslt)
-BuildRequires:  pkgconfig(ogg)
-BuildRequires:  pkgconfig(openssl)
-BuildRequires:  pkgconfig(osmesa)
-BuildRequires:  pkgconfig(poppler)
+BuildRequires:	pkgconfig(expat)
+BuildRequires:	pkgconfig(fontconfig)
+BuildRequires:	pkgconfig(json-c)
+BuildRequires:	pkgconfig(libopenjp2)
+BuildRequires:	pkgconfig(libxml-2.0)
+BuildRequires:	pkgconfig(libxslt)
+BuildRequires:	pkgconfig(ogg)
+BuildRequires:	pkgconfig(openssl)
+BuildRequires:	pkgconfig(osmesa)
+BuildRequires:	pkgconfig(poppler)
 %if %{with python}
-BuildRequires:  pkgconfig(python3)
+BuildRequires:	pkgconfig(python3)
 %endif
-BuildRequires:  pkgconfig(sqlite3)
-BuildRequires:  pkgconfig(theora)
-BuildRequires:  pkgconfig(uuid)
-BuildRequires:  swig
+BuildRequires:	pkgconfig(sqlite3)
+BuildRequires:	pkgconfig(theora)
+BuildRequires:	pkgconfig(uuid)
+BuildRequires:	swig
 %if %{with vtk}
-BuildRequires:  vtk-devel
+BuildRequires:	vtk-devel
 %endif
 
 %description
@@ -82,9 +82,9 @@ anonymize and de-identify DICOM datasets.
 
 #---------------------------------------------------------------------------
 
-%package    doc
-Summary:    Includes html documentation for gdcm
-BuildArch:  noarch
+%package doc
+Summary:	Includes html documentation for gdcm
+BuildArch:	noarch
 
 %description doc
 You should install the gdcm-doc package if you would like to
@@ -95,9 +95,9 @@ access upstream documentation for gdcm.
 
 #---------------------------------------------------------------------------
 
-%package    applications
-Summary:    Includes command line programs for GDCM
-Requires:   %{name}%{?_isa} = %{version}-%{release}
+%package applications
+Summary:	Includes command line programs for GDCM
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description applications
 You should install the gdcm-applications package if you would like to
@@ -123,10 +123,10 @@ anonymize, manipulate, concatenate, and view DICOM files.
 
 #---------------------------------------------------------------------------
 
-%package    devel
-Summary:    Libraries and headers for GDCM
-Requires:   %{name}%{?_isa} = %{version}-%{release}
-Requires:   %{name}-applications%{?_isa} = %{version}-%{release}
+%package devel
+Summary:	Libraries and headers for GDCM
+Requires:	%{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}-applications%{?_isa} = %{version}-%{release}
 
 %description devel
 You should install the gdcm-devel package if you would like to
@@ -139,9 +139,9 @@ compile applications based on gdcm
 
 #---------------------------------------------------------------------------
 
-%package    examples
-Summary:    CSharp, C++, Java, PHP and Python example programs for GDCM
-Requires:   %{name}%{?_isa} = %{version}-%{release}
+%package examples
+Summary:	CSharp, C++, Java, PHP and Python example programs for GDCM
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description examples
 GDCM examples
@@ -153,9 +153,9 @@ GDCM examples
 
 %if %{with python}
 %package -n python-gdcm
-Summary:    Python binding for GDCM
+Summary:	Python binding for GDCM
 %{?python_provide:%python_provide python-gdcm}
-Requires:   %{name}%{?_isa} = %{version}-%{release}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 
 %description -n python-gdcm
 You should install the python3-gdcm package if you would like to
@@ -171,9 +171,9 @@ used this library with python
 
 %if %{with java}
 %package -n java-gdcm
-Summary:    Java binding for GDCM
+Summary:	Java binding for GDCM
 Group:		Development/Java
-Requires:	%{libname} = %{version}
+Requires:	%{name}%{?_isa} = %{version}-%{release}
 Obsoletes:	%{name}-java < %{version}
 Provides:	%{name}-java = %{version}
 
@@ -215,40 +215,39 @@ rm -rf Utilities/wxWidgets
 #rm -rf Utilities/gdcmmd5
 
 %build
-%cmake  .. \
-    -DCMAKE_VERBOSE_MAKEFILE=ON \
-    -DGDCM_INSTALL_PACKAGE_DIR=%{_libdir}/cmake/%{name} \
-    -DGDCM_INSTALL_INCLUDE_DIR=%{_includedir}/%{name} \
-    -DGDCM_INSTALL_DOC_DIR=%{_docdir}/%{name} \
-    -DGDCM_INSTALL_MAN_DIR=%{_mandir} \
-    -DGDCM_INSTALL_LIB_DIR=%{_libdir} \
-    -DGDCM_BUILD_APPLICATIONS:BOOL=ON \
-    -DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
-    -DGDCM_BUILD_EXAMPLES:BOOL=OFF \
-    -DGDCM_BUILD_TESTING:BOOL=ON \
-    -DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
-    -DGDCM_DATA_ROOT=../gdcmData/ \
-    -DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
-    -DGDCM_WRAP_CSHARP:BOOL=OFF \
-    -DGDCM_WRAP_JAVA:BOOL=%{?with_java:ON}%{?!with_java:OFF} \
-    -DGDCM_WRAP_PYTHON:BOOL=%{?with_python:ON}%{?!with_python:OFF} \
-    -DPYTHON_EXECUTABLE=%{__python3} \
-    -DGDCM_INSTALL_PYTHONMODULE_DIR=%{python3_sitearch} \
-    -DGDCM_USE_VTK:BOOL=%{?with_vtk:ON}%{?!with_vtk:OFF} \
-    -DGDCM_USE_SYSTEM_CHARLS:BOOL=ON \
-    -DGDCM_USE_SYSTEM_EXPAT:BOOL=ON \
-    -DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
-    -DGDCM_USE_SYSTEM_ZLIB:BOOL=ON \
-    -DGDCM_USE_SYSTEM_UUID:BOOL=ON \
-    -DGDCM_USE_SYSTEM_LJPEG:BOOL=OFF \
-    -DGDCM_USE_SYSTEM_OPENSSL:BOOL=ON \
-    -DGDCM_USE_JPEGLS:BOOL=ON \
-    -DGDCM_USE_SYSTEM_LIBXML2:BOOL=ON \
-    -DGDCM_USE_SYSTEM_JSON:BOOL=ON \
-    -DGDCM_USE_SYSTEM_POPPLER:BOOL=ON \
+%cmake .. \
+	-DCMAKE_VERBOSE_MAKEFILE=ON \
+	-DGDCM_INSTALL_PACKAGE_DIR=%{_libdir}/cmake/%{name} \
+	-DGDCM_INSTALL_INCLUDE_DIR=%{_includedir}/%{name} \
+	-DGDCM_INSTALL_DOC_DIR=%{_docdir}/%{name} \
+	-DGDCM_INSTALL_MAN_DIR=%{_mandir} \
+	-DGDCM_INSTALL_LIB_DIR=%{_libdir} \
+	-DGDCM_BUILD_APPLICATIONS:BOOL=ON \
+	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
+	-DGDCM_BUILD_EXAMPLES:BOOL=OFF \
+	-DGDCM_BUILD_TESTING:BOOL=ON \
+	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
+	-DGDCM_DATA_ROOT=../gdcmData/ \
+	-DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
+	-DGDCM_WRAP_CSHARP:BOOL=OFF \
+	-DGDCM_WRAP_JAVA:BOOL=%{?with_java:ON}%{?!with_java:OFF} \
+	-DGDCM_WRAP_PYTHON:BOOL=%{?with_python:ON}%{?!with_python:OFF} \
+	-DPYTHON_EXECUTABLE=%{__python3} \
+	-DGDCM_INSTALL_PYTHONMODULE_DIR=%{python3_sitearch} \
+	-DGDCM_USE_VTK:BOOL=%{?with_vtk:ON}%{?!with_vtk:OFF} \
+	-DGDCM_USE_SYSTEM_CHARLS:BOOL=ON \
+	-DGDCM_USE_SYSTEM_EXPAT:BOOL=ON \
+	-DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
+	-DGDCM_USE_SYSTEM_ZLIB:BOOL=ON \
+	-DGDCM_USE_SYSTEM_UUID:BOOL=ON \
+	-DGDCM_USE_SYSTEM_LJPEG:BOOL=OFF \
+	-DGDCM_USE_SYSTEM_OPENSSL:BOOL=ON \
+	-DGDCM_USE_JPEGLS:BOOL=ON \
+	-DGDCM_USE_SYSTEM_LIBXML2:BOOL=ON \
+	-DGDCM_USE_SYSTEM_JSON:BOOL=ON \
+	-DGDCM_USE_SYSTEM_POPPLER:BOOL=ON \
 	-DCMAKE_CXX_STANDARD=17 \
-    -G Ninja
-
+	-G Ninja
 %ninja_build
 
 %install
