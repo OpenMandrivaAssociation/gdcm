@@ -4,16 +4,14 @@
 
 %define oname GDCM
 
-# FIXME actually OM texlive and doxygen are broken!
-%bcond_with doc
+%bcond_without doc
 %bcond_without java
 %bcond_without python
-%bcond_with tests
-# require vtk v7
-%bcond_with vtk
+%bcond_without tests
+%bcond_without vtk
 
 Name:		gdcm
-Version:	3.0.10
+Version:	3.0.19
 Release:	1
 License:	GPL
 Summary:	Open source DICOM library
@@ -22,7 +20,7 @@ URL:		http://gdcm.sourceforge.net/
 # Use github release
 Source0:	https://github.com/malaterre/%{name}/archive/v%{version}/%{oname}-%{version}.tar.gz
 # last update: 2011-12-30
-Source1:	http://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
+Source1:	https://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
 Patch0:		gdcm-3.0.10-fix_copyright.patch
 #Patch1:		gdcm-3.0.10-fix_vtk.patch
 
@@ -106,8 +104,9 @@ anonymize, manipulate, concatenate, and view DICOM files.
 
 %files applications
 %{_bindir}/gdcmanon
-%{_bindir}/gdcmconv
 %{_bindir}/gdcmdiff
+%{_bindir}/gdcmclean
+%{_bindir}/gdcmconv
 %{_bindir}/gdcmdump
 %{_bindir}/gdcmgendir
 %{_bindir}/gdcmimg
@@ -119,7 +118,7 @@ anonymize, manipulate, concatenate, and view DICOM files.
 %{_bindir}/gdcmscu
 %{_bindir}/gdcmtar
 %{_bindir}/gdcmxml
-#doc %{_mandir}/man1/*.1*
+%doc %{_mandir}/man1/*.1*
 
 #---------------------------------------------------------------------------
 
@@ -191,13 +190,10 @@ This package contains Java bindings for GDCM.
 # Data source
 %setup -n GDCM-%{version} -q -T -D -a 1
 
-# Fix cmake command
-sed -i.backup 's/add_dependency/add_dependencies/' Utilities/doxygen/CMakeLists.txt
-
 # Stop doxygen from producing LaTeX output
 sed -i.backup 's/^GENERATE_LATEX.*=.*YES/GENERATE_LATEX = NO/' Utilities/doxygen/doxyfile.in
 
-# Remove bundled utilities (we use Fedora's ones)
+# Remove bundled utilities /use system's ones) 
 rm -rf Utilities/gdcmexpat
 rm -rf Utilities/gdcmopenjpeg-v1
 rm -rf Utilities/gdcmopenjpeg-v2
@@ -225,7 +221,7 @@ rm -rf Utilities/wxWidgets
 	-DGDCM_BUILD_APPLICATIONS:BOOL=ON \
 	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
 	-DGDCM_BUILD_EXAMPLES:BOOL=OFF \
-	-DGDCM_BUILD_TESTING:BOOL=ON \
+	-DGDCM_BUILD_TESTING:BOOL=%{?with_tests:ON}%{$!with_tests:OFF} \
 	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DGDCM_DATA_ROOT=../gdcmData/ \
 	-DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
@@ -252,7 +248,10 @@ rm -rf Utilities/wxWidgets
 
 %install
 %ninja_install -C build
+
+%if %{with python}
 install -d %{buildroot}%{python3_sitearch}
+%endif
 
 # Install examples
 install -d %{buildroot}/%{_datadir}/%{name}/Examples/
