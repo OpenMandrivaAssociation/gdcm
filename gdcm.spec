@@ -57,6 +57,7 @@ BuildRequires:	pkgconfig(uuid)
 BuildRequires:	swig
 %if %{with vtk}
 BuildRequires:	vtk-devel
+BuildRequires:	pkgconfig(fmt)
 %endif
 
 %description
