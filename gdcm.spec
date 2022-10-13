@@ -30,7 +30,7 @@ BuildRequires:	ninja
 BuildRequires:	docbook-style-xsl
 BuildRequires:	docbook-style-xsl-ns
 BuildRequires:	doxygen
-%if %{wite tests}
+%if %{with tests}
 BuildRequires:	texlive
 %endif
 BuildRequires:	dcmtk-devel
