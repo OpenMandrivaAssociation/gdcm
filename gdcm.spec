@@ -4,7 +4,7 @@
 
 %define oname GDCM
 
-%bcond_with	doc
+%bcond_without	doc
 %bcond_without	java
 %bcond_without	python
 %bcond_without	tests
@@ -32,7 +32,7 @@ BuildRequires:	docbook-style-xsl-ns
 BuildRequires:	doxygen
 %if %{with doc}
 BuildRequires:	texlive
-uildRequires:	pkgconfig(libxslt)
+BuildRequires:	pkgconfig(libxslt)
 %endif
 BuildRequires:	dcmtk-devel
 BuildRequires:	git-core
