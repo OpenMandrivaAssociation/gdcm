@@ -30,9 +30,9 @@ BuildRequires:	ninja
 BuildRequires:	docbook-style-xsl
 BuildRequires:	docbook-style-xsl-ns
 BuildRequires:	doxygen
-%if %{with tests}
+%if %{with doc}
 BuildRequires:	texlive
-BuildRequires:	pkgconfig(libxslt)
+uildRequires:	pkgconfig(libxslt)
 %endif
 BuildRequires:	dcmtk-devel
 BuildRequires:	git-core
