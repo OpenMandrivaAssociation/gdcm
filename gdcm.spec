@@ -4,11 +4,11 @@
 
 %define oname GDCM
 
-%bcond_without doc
-%bcond_without java
-%bcond_without python
-%bcond_without tests
-%bcond_without vtk
+%bcond_without	doc
+%bcond_without	java
+%bcond_without	python
+%bcond_without	tests
+%bcond_with	vtk
 
 Name:		gdcm
 Version:	3.0.19
@@ -222,7 +222,7 @@ rm -rf Utilities/wxWidgets
 	-DGDCM_BUILD_APPLICATIONS:BOOL=ON \
 	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
 	-DGDCM_BUILD_EXAMPLES:BOOL=OFF \
-	-DGDCM_BUILD_TESTING:BOOL=%{?with_tests:ON}%{$!with_tests:OFF} \
+	-DGDCM_BUILD_TESTING:BOOL=%{?with_tests:ON}%{?!with_tests:OFF} \
 	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DGDCM_DATA_ROOT=../gdcmData/ \
 	-DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
