@@ -4,10 +4,10 @@
 
 %define oname GDCM
 
-%bcond_without	doc
+%bcond_with	doc
 %bcond_without	java
 %bcond_without	python
-%bcond_with	tests
+%bcond_without	tests
 %bcond_with	vtk
 
 Name:		gdcm
@@ -32,6 +32,7 @@ BuildRequires:	docbook-style-xsl-ns
 BuildRequires:	doxygen
 %if %{with tests}
 BuildRequires:	texlive
+BuildRequires:	pkgconfig(libxslt)
 %endif
 BuildRequires:	dcmtk-devel
 BuildRequires:	git-core
@@ -217,6 +218,7 @@ rm -rf Utilities/wxWidgets
 %build
 %cmake .. \
 	-DCMAKE_VERBOSE_MAKEFILE=ON \
+	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DGDCM_INSTALL_PACKAGE_DIR=%{_libdir}/cmake/%{name} \
 	-DGDCM_INSTALL_INCLUDE_DIR=%{_includedir}/%{name} \
 	-DGDCM_INSTALL_DOC_DIR=%{_docdir}/%{name} \
@@ -226,7 +228,6 @@ rm -rf Utilities/wxWidgets
 	-DGDCM_BUILD_SHARED_LIBS:BOOL=ON \
 	-DGDCM_BUILD_EXAMPLES:BOOL=OFF \
 	-DGDCM_BUILD_TESTING:BOOL=%{?with_tests:ON}%{?!with_tests:OFF} \
-	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DGDCM_DATA_ROOT=../gdcmData/ \
 	-DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
 	-DGDCM_WRAP_CSHARP:BOOL=OFF \
@@ -237,8 +238,9 @@ rm -rf Utilities/wxWidgets
 	-DGDCM_USE_VTK:BOOL=%{?with_vtk:ON}%{?!with_vtk:OFF} \
 	-DGDCM_USE_SYSTEM_CHARLS:BOOL=ON \
 	-DGDCM_USE_SYSTEM_EXPAT:BOOL=ON \
-	-DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
 	-DGDCM_USE_SYSTEM_ZLIB:BOOL=ON \
+	-DGDCM_USE_SYSTEM_OPENJPEG:BOOL=ON \
+	-DGDCM_USE_SYSTEM_PAPYRUS:BOOL=OFF \
 	-DGDCM_USE_SYSTEM_UUID:BOOL=ON \
 	-DGDCM_USE_SYSTEM_LJPEG:BOOL=OFF \
 	-DGDCM_USE_SYSTEM_OPENSSL:BOOL=ON \
