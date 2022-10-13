@@ -7,7 +7,7 @@
 %bcond_without	doc
 %bcond_without	java
 %bcond_without	python
-%bcond_without	tests
+%bcond_with	tests
 %bcond_with	vtk
 
 Name:		gdcm
@@ -30,6 +30,9 @@ BuildRequires:	ninja
 BuildRequires:	docbook-style-xsl
 BuildRequires:	docbook-style-xsl-ns
 BuildRequires:	doxygen
+%if %{wite tests}
+BuildRequires:	texlive
+%endif
 BuildRequires:	dcmtk-devel
 BuildRequires:	git-core
 BuildRequires:	gl2ps-devel
