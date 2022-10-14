@@ -63,6 +63,8 @@ BuildRequires:	swig
 BuildRequires:	vtk-devel
 BuildRequires:	pkgconfig(fmt)
 %endif
+# For man pages
+BuildRequires:	xsltproc
 
 %description
 Grassroots DiCoM (GDCM) is a C++ library for DICOM medical files.
