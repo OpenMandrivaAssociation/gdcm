@@ -94,7 +94,7 @@ You should install the gdcm-doc package if you would like to
 access upstream documentation for gdcm.
 
 %files doc
-#doc %{_docdir}/%{name}/html/
+%doc %{_docdir}/%{name}/html/
 
 #---------------------------------------------------------------------------
 
@@ -168,7 +168,6 @@ used this library with python
 %files -n python-gdcm
 %{python_sitearch}/%{name}*.py
 %{python_sitearch}/_%{name}swig.so
-%{python_sitearch}/__pycache__/%{name}*
 %endif
 
 #---------------------------------------------------------------------------
@@ -196,7 +195,7 @@ This package contains Java bindings for GDCM.
 %setup -n GDCM-%{version} -q -T -D -a 1
 
 # Stop doxygen from producing LaTeX output
-sed -i.backup 's/^GENERATE_LATEX.*=.*YES/GENERATE_LATEX = NO/' Utilities/doxygen/doxyfile.in
+sed -i.backup 's/^GENERATE_LATEX.*=.*YES/GENERATE_LATEX = NO/' Utilities/doxygen/doxyfile.in Utilities/doxygen/vtk/doxyfile.in
 
 # Remove bundled utilities /use system's ones) 
 rm -rf Utilities/gdcmexpat
@@ -230,6 +229,7 @@ rm -rf Utilities/wxWidgets
 	-DGDCM_BUILD_TESTING:BOOL=%{?with_tests:ON}%{?!with_tests:OFF} \
 	-DGDCM_DATA_ROOT=../gdcmData/ \
 	-DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
+	-DGDCM_PDF_DOCUMENTATION:BOOL=OFF \
 	-DGDCM_WRAP_CSHARP:BOOL=OFF \
 	-DGDCM_WRAP_JAVA:BOOL=%{?with_java:ON}%{?!with_java:OFF} \
 	-DGDCM_WRAP_PYTHON:BOOL=%{?with_python:ON}%{?!with_python:OFF} \
@@ -275,4 +275,3 @@ mv -f %{buildroot}%{_libdir}/%{name}.jar %{buildroot}%{_libdir}/java/
 # 11,40,48,49,107-109,111-114,130-135,146,149,,151-154,157,194,216,219
 make test -C build || exit 0
 %endif
-
