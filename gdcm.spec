@@ -16,7 +16,7 @@ Release:	3
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
-URL:		http://gdcm.sourceforge.net/
+URL:		https://gdcm.sourceforge.net/
 # Use github release
 Source0:	https://github.com/malaterre/%{name}/archive/v%{version}/%{oname}-%{version}.tar.gz
 # last update: 2011-12-30
