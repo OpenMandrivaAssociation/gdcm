@@ -11,8 +11,8 @@
 %bcond_with	vtk
 
 Name:		gdcm
-Version:	3.0.19
-Release:	3
+Version:	3.0.20
+Release:	1
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
