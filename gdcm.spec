@@ -2,8 +2,6 @@
 %define devname	%mklibname %{name} -d
 %define pyname	python-%{name}
 
-%define oname GDCM
-
 %bcond_without	doc
 %bcond_without	java
 %bcond_without	python
@@ -11,18 +9,18 @@
 %bcond_with	vtk
 
 Name:		gdcm
-Version:	3.0.20
-Release:	2
+Version:	3.0.21
+Release:	1
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		https://gdcm.sourceforge.net/
 # Use github release
-Source0:	https://github.com/malaterre/%{name}/archive/v%{version}/%{oname}-%{version}.tar.gz
+#Source0:       https://github.com/malaterre/%{name}/archive/v%{version}/GCDM-%{version}.tar.gz
+Source0:        https://downloads.sourceforge.net/project/gdcm/gdcm%203.x/GDCM%20%{version}/%{name}-%{version}.tar.bz2
 # last update: 2011-12-30
 Source1:	https://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
 Patch0:		gdcm-3.0.10-fix_copyright.patch
-#Patch1:		gdcm-3.0.10-fix_vtk.patch
 
 BuildRequires:	CharLS-devel >= 2.0
 BuildRequires:	cmake
@@ -192,9 +190,7 @@ This package contains Java bindings for GDCM.
 #---------------------------------------------------------------------------
 
 %prep
-%autosetup -n GDCM-%{version} -S git
-# Data source
-%setup -n GDCM-%{version} -q -T -D -a 1
+%autosetup -p1 -a 0 -S git -a 1
 
 # Stop doxygen from producing LaTeX output
 sed -i.backup 's/^GENERATE_LATEX.*=.*YES/GENERATE_LATEX = NO/' Utilities/doxygen/doxyfile.in Utilities/doxygen/vtk/doxyfile.in

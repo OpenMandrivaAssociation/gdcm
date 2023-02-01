@@ -1,4 +1,4 @@
---- a/CMake/UseCopyright.cmake.orig
+--- a/CMake/UseCopyright.cmake
 +++ b/CMake/UseCopyright.cmake
 @@ -18,8 +18,10 @@
    # need to raise an error if COPYRIGHT_MODULE_FILENAME is not set...
