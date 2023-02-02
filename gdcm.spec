@@ -1,4 +1,4 @@
-%define libname	%mklibname %{name} 0
+%define libname	%mklibname %{name}
 %define devname	%mklibname %{name} -d
 %define pyname	python-%{name}
 
@@ -22,7 +22,6 @@ Source0:        https://downloads.sourceforge.net/project/gdcm/gdcm%203.x/GDCM%2
 Source1:	https://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
 Patch0:		gdcm-3.0.10-fix_copyright.patch
 
-BuildRequires:	CharLS-devel >= 2.0
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	docbook-style-xsl
@@ -32,7 +31,6 @@ BuildRequires:	doxygen
 BuildRequires:	texlive
 BuildRequires:	pkgconfig(libxslt)
 %endif
-BuildRequires:	dcmtk-devel
 BuildRequires:	git-core
 BuildRequires:	gl2ps-devel
 BuildRequires:	graphviz
@@ -40,13 +38,15 @@ BuildRequires:	graphviz
 BuildRequires:	java-devel
 BuildRequires:	java-vtk
 %endif
-BuildRequires:	pkgconfig(expat)
+BuildRequires:	cmake(DCMTK)
+BuildRequires:	cmake(charls)
+BuildRequires:	cmake(expat)
+BuildRequires:	cmake(json-c)
+BuildRequires:	cmake(ogg)
 BuildRequires:	pkgconfig(fontconfig)
-BuildRequires:	pkgconfig(json-c)
 BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libxslt)
-BuildRequires:	pkgconfig(ogg)
 BuildRequires:	pkgconfig(openssl)
 BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	pkgconfig(poppler)
@@ -58,8 +58,8 @@ BuildRequires:	pkgconfig(theora)
 BuildRequires:	pkgconfig(uuid)
 BuildRequires:	swig
 %if %{with vtk}
-BuildRequires:	vtk-devel
-BuildRequires:	pkgconfig(fmt)
+BuildRequires:	cmake(vtk)
+BuildRequires:	cmake(fmt)
 %endif
 # For man pages
 BuildRequires:	xsltproc
@@ -211,6 +211,9 @@ rm -rf Utilities/wxWidgets
 
 # Needed for testing:
 #rm -rf Utilities/gdcmmd5
+
+# Fix path
+sed -i -e 's,CharLS/charls.h,charls/charls.h,g' Utilities/gdcm_charls.h
 
 %build
 %cmake .. \
