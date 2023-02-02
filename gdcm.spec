@@ -1,7 +1,3 @@
-%define libname	%mklibname %{name}
-%define devname	%mklibname %{name} -d
-%define pyname	python-%{name}
-
 %bcond_without	doc
 %bcond_without	java
 %bcond_without	python
@@ -16,8 +12,8 @@ Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		https://gdcm.sourceforge.net/
 # Use github release
-#Source0:       https://github.com/malaterre/%{name}/archive/v%{version}/GCDM-%{version}.tar.gz
-Source0:        https://downloads.sourceforge.net/project/gdcm/gdcm%203.x/GDCM%20%{version}/%{name}-%{version}.tar.bz2
+#Source0:	https://github.com/malaterre/%{name}/archive/v%{version}/GCDM-%{version}.tar.gz
+Source0:	https://downloads.sourceforge.net/project/gdcm/gdcm%203.x/GDCM%20%{version}/%{name}-%{version}.tar.bz2
 # last update: 2011-12-30
 Source1:	https://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
 Patch0:		gdcm-3.0.10-fix_copyright.patch
@@ -216,6 +212,8 @@ rm -rf Utilities/wxWidgets
 sed -i -e 's,CharLS/charls.h,charls/charls.h,g' Utilities/gdcm_charls.h
 
 %build
+LDFLAGS="%ldflags `pkg-config --libs charls`"
+
 %cmake .. \
 	-DCMAKE_VERBOSE_MAKEFILE=ON \
 	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
