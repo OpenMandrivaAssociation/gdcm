@@ -227,6 +227,7 @@ LDFLAGS="%ldflags `pkg-config --libs charls`"
 	-DGDCM_BUILD_EXAMPLES:BOOL=OFF \
 	-DGDCM_BUILD_TESTING:BOOL=%{?with_tests:ON}%{?!with_tests:OFF} \
 	-DGDCM_DATA_ROOT=../gdcmData/ \
+	-DGDCM_DEFAULT_JAVA_VERSION:STRING=1.8 \
 	-DGDCM_DOCUMENTATION:BOOL=%{?with_doc:ON}%{?!with_doc:OFF} \
 	-DGDCM_PDF_DOCUMENTATION:BOOL=OFF \
 	-DGDCM_WRAP_CSHARP:BOOL=OFF \
