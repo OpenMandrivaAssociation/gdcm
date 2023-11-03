@@ -5,14 +5,14 @@
 %bcond_with	vtk
 
 Name:		gdcm
-Version:	3.0.21
-Release:	7
+Version:	3.0.22
+Release:	1
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
 URL:		https://gdcm.sourceforge.net/
 # Use github release
-#Source0:	https://github.com/malaterre/%{name}/archive/v%{version}/GCDM-%{version}.tar.gz
+#Source0:	https://github.com/malaterre/GDCM/archive/v%{version}/GCDM-%{version}.tar.gz
 Source0:	https://downloads.sourceforge.net/project/gdcm/gdcm%203.x/GDCM%20%{version}/%{name}-%{version}.tar.bz2
 # last update: 2011-12-30
 Source1:	https://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
