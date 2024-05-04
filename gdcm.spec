@@ -214,7 +214,7 @@ sed -i -e 's,CharLS/charls.h,charls/charls.h,g' Utilities/gdcm_charls.h
 %build
 LDFLAGS="%ldflags `pkg-config --libs charls`"
 
-CXXFLAGS="%{optflags} -std=gnu++20" %cmake .. \
+%cmake .. \
 	-DCMAKE_VERBOSE_MAKEFILE=ON \
 	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DGDCM_INSTALL_PACKAGE_DIR=%{_libdir}/cmake/%{name} \
@@ -248,7 +248,7 @@ CXXFLAGS="%{optflags} -std=gnu++20" %cmake .. \
 	-DGDCM_USE_SYSTEM_LIBXML2:BOOL=ON \
 	-DGDCM_USE_SYSTEM_JSON:BOOL=ON \
 	-DGDCM_USE_SYSTEM_POPPLER:BOOL=ON \
-	-DCMAKE_CXX_STANDARD=17 \
+	-DCMAKE_CXX_STANDARD=20 \
 	-G Ninja
 %ninja_build
 
