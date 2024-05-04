@@ -5,8 +5,8 @@
 %bcond_with	vtk
 
 Name:		gdcm
-Version:	3.0.23
-Release:	2
+Version:	3.0.24
+Release:	1
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
@@ -214,7 +214,7 @@ sed -i -e 's,CharLS/charls.h,charls/charls.h,g' Utilities/gdcm_charls.h
 %build
 LDFLAGS="%ldflags `pkg-config --libs charls`"
 
-%cmake .. \
+CXXFLAGS="%{optflags} -std=gnu++20" %cmake .. \
 	-DCMAKE_VERBOSE_MAKEFILE=ON \
 	-DCMAKE_BUILD_TYPE:STRING="RelWithDebInfo" \
 	-DGDCM_INSTALL_PACKAGE_DIR=%{_libdir}/cmake/%{name} \
