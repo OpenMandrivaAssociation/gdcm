@@ -25,6 +25,7 @@ BuildRequires:	docbook-style-xsl-ns
 BuildRequires:	doxygen
 %if %{with doc}
 BuildRequires:	texlive
+BuildRequires:	texlive-dehyph-exptl
 BuildRequires:	pkgconfig(libxslt)
 %endif
 BuildRequires:	git-core
