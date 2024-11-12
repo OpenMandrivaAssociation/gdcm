@@ -1,0 +1,12 @@
+diff -up gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx.omv~ gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx
+--- gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx.omv~	2024-11-12 17:50:51.741995430 +0100
++++ gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx	2024-11-12 17:51:21.932234762 +0100
+@@ -559,7 +559,7 @@ static int ProcessOneFile( std::string c
+         info.free();
+ #endif
+         }
+-#ifdef LIBPOPPLER_CATALOG_HAS_STRUCTTREEROOT
++#if 1 //def LIBPOPPLER_CATALOG_HAS_STRUCTTREEROOT
+       const char *tagged = doc->getStructTreeRoot() ? "yes" : "no";
+ #else
+       const char *tagged = doc->getStructTreeRoot()->isDict() ? "yes" : "no";

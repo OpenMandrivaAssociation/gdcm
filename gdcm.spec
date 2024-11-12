@@ -16,8 +16,6 @@ URL:		https://gdcm.sourceforge.net/
 Source0:	https://downloads.sourceforge.net/project/gdcm/gdcm%203.x/GDCM%20%{version}/%{name}-%{version}.tar.bz2
 # last update: 2011-12-30
 Source1:	https://downloads.sourceforge.net/project/gdcm/gdcmData/gdcmData/gdcmData.tar.gz
-Patch0:		gdcm-3.0.10-fix_copyright.patch
-
 BuildRequires:	cmake
 BuildRequires:	ninja
 BuildRequires:	docbook-style-xsl
@@ -61,6 +59,10 @@ BuildRequires:	cmake(fmt)
 %endif
 # For man pages
 BuildRequires:	xsltproc
+
+%patchlist
+gdcm-3.0.10-fix_copyright.patch
+gdcm-fix-poppler-24.11.patch
 
 %description
 Grassroots DiCoM (GDCM) is a C++ library for DICOM medical files.
