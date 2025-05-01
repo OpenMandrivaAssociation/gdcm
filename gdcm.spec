@@ -44,7 +44,6 @@ BuildRequires:	pkgconfig(libopenjp2)
 BuildRequires:	pkgconfig(libxml-2.0)
 BuildRequires:	pkgconfig(libxslt)
 BuildRequires:	pkgconfig(openssl)
-BuildRequires:	pkgconfig(osmesa)
 BuildRequires:	pkgconfig(poppler)
 %if %{with python}
 BuildRequires:	pkgconfig(python3)
