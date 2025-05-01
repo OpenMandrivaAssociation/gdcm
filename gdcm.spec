@@ -6,7 +6,7 @@
 
 Name:		gdcm
 Version:	3.0.24
-Release:	7
+Release:	8
 License:	GPL
 Summary:	Open source DICOM library
 Group:		Development/C++
