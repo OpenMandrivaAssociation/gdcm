@@ -1,0 +1,209 @@
+diff -ruN gdcm-3.0.24/Applications/Cxx/CMakeLists.txt gdcm-3.0.24/Applications/Cxx/CMakeLists.txt
+--- gdcm-3.0.24/Applications/Cxx/CMakeLists.txt	2026-10-26 16:33:06.535750765 +0100
++++ gdcm-3.0.24/Applications/Cxx/CMakeLists.txt	2026-10-26 16:33:06.536357431 +0100
+@@ -117,11 +117,23 @@
+     list(APPEND libpoppler_flags -DLIBPOPPLER_UNICODEMAP_HAS_CONSTMAPUNICODE)
+   endif()
+   CHECK_CXX_SOURCE_COMPILES(
+-    "\#include <poppler/PDFDoc.h>\nint main() { std::optional<GooString> ownerPW, userPW; PDFDoc d((BaseStream*)nullptr,ownerPW,userPW); return 0;}"
++    "\#include <poppler/PDFDocFactory.h>\nint main() { GooString name(\"x\"); std::optional<GooString> ownerPW, userPW; auto doc = PDFDocFactory().createPDFDoc(name, ownerPW, userPW); return doc ? 0 : 1; }"
+     LIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+   if(LIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+     list(APPEND libpoppler_flags -DLIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+   endif()
++  CHECK_CXX_SOURCE_COMPILES(
++    "\#include <poppler/Object.h>\n#include <string>\n#include <type_traits>\nint main() { static_assert(std::is_same<decltype(std::declval<const Object&>().getString()), const std::string&>::value); return 0; }"
++    LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING)
++  if(LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING)
++    list(APPEND libpoppler_flags -DLIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING)
++  endif()
++  CHECK_CXX_SOURCE_COMPILES(
++    "\#include <poppler/PDFDoc.h>\n#include <memory>\nint main() { std::unique_ptr<BaseStream> s; PDFDoc d(std::move(s)); return 0; }"
++    LIBPOPPLER_PDFDOC_STREAM_UNIQUE_PTR)
++  if(LIBPOPPLER_PDFDOC_STREAM_UNIQUE_PTR)
++    list(APPEND libpoppler_flags -DLIBPOPPLER_PDFDOC_STREAM_UNIQUE_PTR)
++  endif()
+   if(libpoppler_flags)
+     string(REPLACE ";" " " libpoppler_flags_string "${libpoppler_flags}")
+     set_source_files_properties(
+diff -ruN gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx
+--- gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx	2026-10-26 16:33:06.535375280 +0100
++++ gdcm-3.0.24/Applications/Cxx/gdcminfo.cxx	2026-10-26 16:33:06.536300651 +0100
+@@ -201,6 +201,10 @@
+   if (infoDict->lookup((char*)key, &obj)->isString())
+ #endif
+     {
++#ifdef LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING
++    const std::string &gs = obj.getString();
++    s = gs.c_str();
++#else
+ #ifndef LIBPOPPLER_GOOSTRING_HAS_GETCSTRING
+     const
+ #endif
+@@ -210,6 +214,7 @@
+ #else
+     s = gs->c_str();
+ #endif
++#endif
+     if (s[0] == 'D' && s[1] == ':')
+       {
+       s += 2;
+@@ -268,11 +273,13 @@
+ #endif
+ {
+   Object obj;
++#ifndef LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING
+ #ifdef LIBPOPPLER_GOOSTRING_HAS_CONSTGETCHAR
+   const GooString *s1;
+ #else
+   GooString *s1;
+ #endif
++#endif
+   bool isUnicode;
+   Unicode u;
+   char buf[8];
+@@ -285,6 +292,34 @@
+   if (infoDict->lookup((char*)key, &obj)->isString())
+ #endif
+     {
++#ifdef LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING
++    const std::string &s1 = obj.getString();
++    if (s1.size() >= 2 &&
++      (static_cast<unsigned char>(s1[0]) == 0xfe) &&
++      (static_cast<unsigned char>(s1[1]) == 0xff))
++      {
++      isUnicode = true;
++      i = 2;
++      }
++    else
++      {
++      isUnicode = false;
++      i = 0;
++      }
++    while (i < (int)s1.size())
++      {
++      if (isUnicode)
++        {
++        u = (static_cast<unsigned char>(s1[i]) << 8) |
++          static_cast<unsigned char>(s1[i+1]);
++        i += 2;
++        }
++      else
++        {
++        u = pdfDocEncoding[static_cast<unsigned char>(s1[i])];
++        ++i;
++        }
++#else
+     s1 = obj.getString();
+     if ((s1->getChar(0) & 0xff) == 0xfe &&
+       (s1->getChar(1) & 0xff) == 0xff)
+@@ -310,6 +345,7 @@
+         u = pdfDocEncoding[s1->getChar(i) & 0xff];
+         ++i;
+         }
++#endif
+       n = uMap->mapUnicode(u, buf, sizeof(buf));
+       //fwrite(buf,1,n,stdout);
+       out.append( std::string(buf, n) );
+@@ -501,16 +537,18 @@
+ #else
+       bv->GetLength(), &appearDict);
+ #endif
+-#ifdef LIBPOPPLER_PDFDOC_HAS_OPTIONAL
++    PDFDoc *doc;
++#ifdef LIBPOPPLER_PDFDOC_STREAM_UNIQUE_PTR
++    doc = new PDFDoc(std::unique_ptr<BaseStream>(appearStream));
++#elif defined(LIBPOPPLER_PDFDOC_HAS_OPTIONAL)
+     std::optional<GooString> ownerPW, userPW;
++    doc = new PDFDoc(appearStream, ownerPW, userPW);
+ #else
+     GooString *ownerPW, *userPW;
+     ownerPW = NULL;
+     userPW = NULL;
+-#endif
+-
+-    PDFDoc *doc;
+     doc = new PDFDoc(appearStream, ownerPW, userPW);
++#endif
+ 
+     std::string title;
+     std::string subject;
+diff -ruN gdcm-3.0.24/Applications/Cxx/gdcmpdf.cxx gdcm-3.0.24/Applications/Cxx/gdcmpdf.cxx
+--- gdcm-3.0.24/Applications/Cxx/gdcmpdf.cxx	2026-10-26 16:33:06.535589803 +0100
++++ gdcm-3.0.24/Applications/Cxx/gdcmpdf.cxx	2026-10-26 16:33:06.536237120 +0100
+@@ -52,6 +52,10 @@
+   if (infoDict->lookup((char*)key, &obj)->isString())
+ #endif
+     {
++#ifdef LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING
++    const std::string &gs = obj.getString();
++    s = gs.c_str();
++#else
+ #ifndef LIBPOPPLER_GOOSTRING_HAS_GETCSTRING
+     const
+ #endif
+@@ -61,6 +65,7 @@
+ #else
+     s = gs->c_str();
+ #endif
++#endif
+     if (s[0] == 'D' && s[1] == ':')
+       {
+       s += 2;
+@@ -119,11 +124,13 @@
+ #endif
+ {
+   Object obj;
++#ifndef LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING
+ #ifdef LIBPOPPLER_GOOSTRING_HAS_CONSTGETCHAR
+   const GooString *s1;
+ #else
+   GooString *s1;
+ #endif
++#endif
+   bool isUnicode = false;
+   Unicode u;
+   char buf[8];
+@@ -136,6 +143,34 @@
+   if (infoDict->lookup((char*)key, &obj)->isString())
+ #endif
+     {
++#ifdef LIBPOPPLER_OBJECT_GETSTRING_IS_STDSTRING
++    const std::string &s1 = obj.getString();
++    if (s1.size() >= 2 &&
++      (static_cast<unsigned char>(s1[0]) == 0xfe) &&
++      (static_cast<unsigned char>(s1[1]) == 0xff))
++      {
++      isUnicode = true;
++      i = 2;
++      }
++    else
++      {
++      isUnicode = false;
++      i = 0;
++      }
++    while (i < (int)s1.size())
++      {
++      if (isUnicode)
++        {
++        u = (static_cast<unsigned char>(s1[i]) << 8) |
++          static_cast<unsigned char>(s1[i+1]);
++        i += 2;
++        }
++      else
++        {
++        u = pdfDocEncoding[static_cast<unsigned char>(s1[i])];
++        ++i;
++        }
++#else
+     s1 = obj.getString();
+     if ((s1->getChar(0) & 0xff) == 0xfe &&
+       (s1->getChar(1) & 0xff) == 0xff)
+@@ -161,6 +196,7 @@
+         u = pdfDocEncoding[s1->getChar(i) & 0xff];
+         ++i;
+         }
++#endif
+       n = uMap->mapUnicode(u, buf, sizeof(buf));
+       //fwrite(buf,1,n,stdout);
+       out.append( std::string(buf, n) );

@@ -62,6 +62,7 @@ BuildRequires:	xsltproc
 %patchlist
 gdcm-3.0.10-fix_copyright.patch
 gdcm-fix-poppler-24.11.patch
+gdcm-poppler-26.patch
 
 %description
 Grassroots DiCoM (GDCM) is a C++ library for DICOM medical files.
