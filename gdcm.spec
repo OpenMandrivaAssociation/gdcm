@@ -215,6 +215,19 @@ rm -rf Utilities/wxWidgets
 # Fix path
 sed -i -e 's,CharLS/charls.h,charls/charls.h,g' Utilities/gdcm_charls.h
 
+# SWIG 4.5 ignores -py3, and GDCM's typemaps still call the Python 2 API.
+find . -type f \( -name '*.i' -o -name '*.swg' -o -name '*.h' -o -name '*.cxx' -o -name '*.c' \) -print0 |
+	xargs -0 -r grep -lZ 'PyString_\|PyInt_' |
+	xargs -0 -r sed -i \
+		-e 's/PyString_AsString/PyBytes_AsString/g' \
+		-e 's/PyString_Size/PyBytes_Size/g' \
+		-e 's/PyString_FromStringAndSize/PyBytes_FromStringAndSize/g' \
+		-e 's/PyString_FromString/PyUnicode_FromString/g' \
+		-e 's/PyString_Check/PyBytes_Check/g' \
+		-e 's/PyInt_FromLong/PyLong_FromLong/g' \
+		-e 's/PyInt_AsLong/PyLong_AsLong/g' \
+		-e 's/PyInt_Check/PyLong_Check/g'
+
 %build
 LDFLAGS="%ldflags `pkg-config --libs charls`"
 
