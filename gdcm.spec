@@ -32,6 +32,8 @@ BuildRequires:	gl2ps-devel
 BuildRequires:	graphviz
 %if %{with java}
 BuildRequires:	java-devel
+# FindJNI requires libjawt.so. OpenJDK 26+ ships it in the gui subpackage.
+BuildRequires:	java-gui-current
 BuildRequires:	java-vtk
 %endif
 BuildRequires:	cmake(DCMTK)
